@@ -2,7 +2,6 @@ package com.ecommerce.shop.ping.controllers;
 
 import com.ecommerce.shop.ping.entities.PingEntity;
 import com.ecommerce.shop.ping.repositories.PingRepository;
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +22,6 @@ public class PingController {
         this.myRequestBean = myRequestBean;
     }
 
-    @WithSpan(value = "greeting span")
     @GetMapping("/")
     public String Ping() {
         logger.info("Ping");
@@ -35,13 +33,13 @@ public class PingController {
     }
 
     @Bean
-    @WithSpan(value = "greeting span")
     @GetMapping("/count")
     public long Count() {
         long count = pingRepository.count();
 
         logger.atInfo()
                 .addKeyValue("ping_count", count)
+                .addKeyValue("ping_count_2", count)
                 .log("Ping count is {}.", count);
 
         return count;
