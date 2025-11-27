@@ -1,6 +1,6 @@
 package com.ecommerce.shop;
 
-import com.ecommerce.shop.ping.repositories.PingRepository;
+import com.ecommerce.shop.repositories.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,9 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Import(TestcontainersConfiguration.class)
-public class PingControllerTest {
+public class ItemControllerTest {
     @Autowired
-    private PingRepository pingRepository;
+    private ItemRepository pingRepository;
 
     @BeforeEach
     void setUp() {
