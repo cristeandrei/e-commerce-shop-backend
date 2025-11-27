@@ -3,7 +3,7 @@
 {
   "name": "e-commerce-shop-backend",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "dockerComposeFile": "docker-compose.yml",
+  "dockerComposeFile": "compose.yaml",
   "service": "devcontainer",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
