@@ -26,7 +26,13 @@ public class ItemController {
                 .addKeyValue("item_id", itemId)
                 .log("Get item with id {}.", itemId);
 
-        return itemRepository.findById(itemId).toResponse();
+        var response = itemRepository.findById(itemId);
+
+        if (response == null) {
+            return null;
+        }
+
+        return response.toResponse();
     }
 
     @PostMapping("/")
