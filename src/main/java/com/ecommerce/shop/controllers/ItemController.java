@@ -2,7 +2,6 @@ package com.ecommerce.shop.controllers;
 
 import com.ecommerce.shop.contracts.ItemCreationRequest;
 import com.ecommerce.shop.contracts.ItemResponse;
-import com.ecommerce.shop.entities.ItemEntity;
 import com.ecommerce.shop.repositories.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +34,11 @@ public class ItemController {
         return response.toResponse();
     }
 
-    @PostMapping("/")
-    public ItemEntity CreateItem(@RequestBody ItemCreationRequest itemCreationRequest) {
-        return itemRepository.save(itemCreationRequest.toEntity());
+  @PostMapping("/")
+  public ItemResponse CreateItem(@RequestBody ItemCreationRequest itemCreationRequest) {
+    var item = itemRepository.save(itemCreationRequest.toEntity());
+
+    return item.toResponse();
     }
 }
 
