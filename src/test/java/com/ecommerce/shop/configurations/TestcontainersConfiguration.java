@@ -1,4 +1,4 @@
-package com.ecommerce.shop;
+package com.ecommerce.shop.configurations;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -11,7 +11,6 @@ public class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     PostgreSQLContainer postgresContainer() {
-        return new PostgreSQLContainer(
-                DockerImageName.parse("postgres:18"));
+    return new PostgreSQLContainer(DockerImageName.parse("postgres:18"));
     }
 }
