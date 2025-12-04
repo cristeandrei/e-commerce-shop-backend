@@ -9,7 +9,7 @@ public interface ItemRepository extends CrudRepository<ItemEntity, Long> {
     @Observed(
             name = "com.ecommerce.shop.repositories.ItemRepository.findById", // The base name for the metric and span
             contextualName = "findById", // A more descriptive name for the trace span
-            lowCardinalityKeyValues = {"item"} // Tags for metrics and traces
+            lowCardinalityKeyValues = {"item-method", "getter-by-id"} // Tags for metrics and traces
     )
     ItemEntity findById(long id);
 }
