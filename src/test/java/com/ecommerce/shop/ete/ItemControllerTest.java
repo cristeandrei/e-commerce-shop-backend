@@ -3,10 +3,8 @@ package com.ecommerce.shop.ete;
 import com.ecommerce.shop.configurations.TestcontainersConfiguration;
 import com.ecommerce.shop.contracts.ItemCreationRequest;
 import com.ecommerce.shop.contracts.ItemResponse;
-import com.ecommerce.shop.repositories.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
@@ -18,14 +16,10 @@ public class ItemControllerTest {
 
   @LocalServerPort private int port;
 
-  @Autowired private ItemRepository itemRepository;
-
   private RestTestClient client;
 
   @BeforeEach
   void setUp() {
-    itemRepository.deleteAll();
-
     client = RestTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
   }
 
@@ -33,18 +27,32 @@ public class ItemControllerTest {
   void shouldCreateAndRetrieveAnItem() {
     var itemCreationRequest = new ItemCreationRequest("Shoe", "Its a shoe");
 
-    client.post().uri("/items/").body(itemCreationRequest).exchange().expectStatus().isOk();
+    var exchangeResult =
+        client
+            .get()
+            .uri("/login/")
+            .headers(e -> e.setBasicAuth("user", "password"))
+            .exchange()
+            .returnResult();
 
-    var entity =
-        new ItemResponse(1L, itemCreationRequest.name(), itemCreationRequest.description());
+    var itemResponse =
+        client
+            .post()
+            .uri("/items/")
+            .body(itemCreationRequest)
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .returnResult(ItemResponse.class)
+            .getResponseBody();
 
     client
         .get()
-        .uri("/items/1")
+        .uri("/items/" + itemResponse.id())
         .exchange()
         .expectStatus()
         .isOk()
         .expectBody(ItemResponse.class)
-        .isEqualTo(entity);
+        .isEqualTo(itemResponse);
   }
 }
