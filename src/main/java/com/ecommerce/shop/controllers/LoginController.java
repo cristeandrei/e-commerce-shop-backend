@@ -1,19 +1,23 @@
 package com.ecommerce.shop.controllers;
 
+import com.ecommerce.shop.contracts.UserDetailsResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/auth")
 public class LoginController {
-  @GetMapping("/login")
-  public ResponseEntity<Void> Login(@RequestAttribute("_csrf") CsrfToken csrfToken) {
-    csrfToken.getToken();
+  @PostMapping("/login")
+  public ResponseEntity<UserDetailsResponse> Login(Authentication authentication) {
+    return ResponseEntity.ok(new UserDetailsResponse(authentication.getName()));
+  }
 
-    return ResponseEntity.ok().build();
+  @GetMapping("/csrfToken")
+  public ResponseEntity<String> CsrfToken(@RequestAttribute("_csrf") CsrfToken csrfToken) {
+    var token = csrfToken.getToken();
+
+    return ResponseEntity.ok(token);
   }
 }
